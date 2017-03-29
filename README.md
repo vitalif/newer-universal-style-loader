@@ -1,7 +1,5 @@
 [![npm][npm]][npm-url]
 [![node][node]][node-url]
-[![deps][deps]][deps-url]
-[![chat][chat]][chat-url]
 
 <div align="center">
   <a href="https://github.com/webpack/webpack">
@@ -185,14 +183,8 @@ Don't hesitate to create a pull request. Every contribution is appreciated. In d
 
 MIT
 
-[npm]: https://img.shields.io/npm/v/style-loader.svg
+[npm]: https://img.shields.io/npm/v/simple-universal-style-loader.svg
 [npm-url]: https://npmjs.com/package/simple-universal-style-loader
 
-[node]: https://img.shields.io/node/v/style-loader.svg
+[node]: https://img.shields.io/node/v/simple-universal-style-loader.svg
 [node-url]: https://nodejs.org
-
-[deps]: https://img.shields.io/npm/v/style-loader.svg
-[deps-url]: https://david-dm.org/webpack/file-loader
-
-[chat]: https://badges.gitter.im/webpack/webpack.svg
-[chat-url]: https://gitter.im/webpack/webpack
