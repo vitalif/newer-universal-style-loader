@@ -1,2 +1,4 @@
 fixtures/
 .idea
+.github
+.travis.yml
