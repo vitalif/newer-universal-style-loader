@@ -1,7 +1,8 @@
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
+/**
+ * MIT License http://www.opensource.org/licenses/mit-license.php
+ * Tobias Koppers @sokra
+ * Vitaliy Filippov vitalif@yourcmc.ru
+ */
 var stylesInDom = {},
 	memoize = function(fn) {
 		var memo;
@@ -42,15 +43,17 @@ module.exports = function(list, options) {
 	options = options || {};
 	options.attrs = typeof options.attrs === "object" ? options.attrs : {};
 
-	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-	// tags it will allow on a page
-	if (typeof options.singleton === "undefined") options.singleton = isOldIE();
+	// By default, use "__universalLoaderStyles" as the ID of style element
+	if (!options.elementId) options.elementId = "__universalLoaderStyles";
+
+	// Use single-tag solution by default
+	if (options.singleton == undefined) options.singleton = true;
 
 	// By default, add <style> tags to the <head> element
-	if (typeof options.insertInto === "undefined") options.insertInto = "head";
+	if (options.insertInto == undefined) options.insertInto = "head";
 
 	// By default, add <style> tags to the bottom of the target
-	if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
+	if (options.insertAt == undefined) options.insertAt = "bottom";
 
 	var styles = listToStyles(list);
 	addStylesToDom(styles, options);
@@ -103,6 +106,7 @@ function addStylesToDom(styles, options) {
 function listToStyles(list) {
 	var styles = [];
 	var newStyles = {};
+	list = list.default || list;
 	for(var i = 0; i < list.length; i++) {
 		var item = list[i];
 		var id = item[0];
@@ -148,12 +152,15 @@ function removeStyleElement(styleElement) {
 	}
 }
 
-function createStyleElement(options) {
-	var styleElement = document.createElement("style");
+function createStyleElement(options, id) {
+	var styleElement = document.getElementById(id);
 	options.attrs.type = "text/css";
-
-	attachTagAttrs(styleElement, options.attrs);
-	insertStyleElement(options, styleElement);
+	if (!styleElement) {
+		styleElement = document.createElement("style");
+		attachTagAttrs(styleElement, options.attrs);
+		styleElement.setAttribute('id', id);
+		insertStyleElement(options, styleElement);
+	}
 	return styleElement;
 }
 
@@ -176,9 +183,9 @@ function attachTagAttrs(element, attrs) {
 function addStyle(obj, options) {
 	var styleElement, update, remove;
 
+	var styleIndex = singletonCounter++;
 	if (options.singleton) {
-		var styleIndex = singletonCounter++;
-		styleElement = singletonElement || (singletonElement = createStyleElement(options));
+		styleElement = singletonElement || (singletonElement = createStyleElement(options, options.elementId));
 		update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
 		remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
 	} else if(obj.sourceMap &&
@@ -195,7 +202,7 @@ function addStyle(obj, options) {
 				URL.revokeObjectURL(styleElement.href);
 		};
 	} else {
-		styleElement = createStyleElement(options);
+		styleElement = createStyleElement(options, options.elementId+styleIndex);
 		update = applyToTag.bind(null, styleElement);
 		remove = function() {
 			removeStyleElement(styleElement);
@@ -232,7 +239,8 @@ function applyToSingletonTag(styleElement, index, remove, obj) {
 	} else {
 		var cssNode = document.createTextNode(css);
 		var childNodes = styleElement.childNodes;
-		if (childNodes[index]) styleElement.removeChild(childNodes[index]);
+		if (childNodes[index])
+			styleElement.removeChild(childNodes[index]);
 		if (childNodes.length) {
 			styleElement.insertBefore(cssNode, childNodes[index]);
 		} else {
