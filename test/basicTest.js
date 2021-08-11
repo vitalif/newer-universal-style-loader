@@ -12,7 +12,7 @@ describe("basic tests", function() {
   var requiredCss = ".required { color: blue }",
     requiredCssTwo = ".requiredTwo { color: cyan }",
     localScopedCss = ":local(.className) { background: red; }",
-    requiredStyle = `<style type="text/css">${requiredCss}</style>`,
+    requiredStyle = `<style type="text/css" id="__universalLoaderStyles">${requiredCss}</style>`,
     existingStyle = "<style>.existing { color: yellow }</style>",
     checkValue = '<div class="check">check</div>',
     rootDir = path.resolve(__dirname + "/../") + "/",
@@ -111,7 +111,7 @@ describe("basic tests", function() {
     // Run
     let expected = [
       existingStyle,
-      `<style type="text/css">${requiredCss}${requiredCssTwo}</style>`
+      `<style type="text/css" id="__universalLoaderStyles">${requiredCss}${requiredCssTwo}</style>`
     ].join("\n");
 
     runCompilerTest(expected, done);
@@ -119,7 +119,7 @@ describe("basic tests", function() {
 
   it("attrs", function(done) {
     // Setup
-    styleLoaderOptions.attrs = {id: 'style-tag-id'};
+    styleLoaderOptions.attrs = {media: 'screen'};
 
     fs.writeFileSync(
       rootDir + "main.js",
@@ -131,7 +131,7 @@ describe("basic tests", function() {
     // Run
     let expected = [
       existingStyle,
-      `<style id="${styleLoaderOptions.attrs.id}" type="text/css">${requiredCss}</style>`
+      `<style media="screen" type="text/css" id="__universalLoaderStyles">${requiredCss}</style>`
     ].join("\n");
 
     runCompilerTest(expected, done);
@@ -200,7 +200,7 @@ describe("basic tests", function() {
     // Run
     let expected = [
       existingStyle,
-      `<style type="text/css">${requiredCssTwo}</style>`
+      `<style type="text/css" id="__universalLoaderStyles">${requiredCssTwo}</style>`
     ].join("\n");
 
     runCompilerTest(expected, done);
@@ -226,7 +226,7 @@ describe("basic tests", function() {
     // Run
     let expected = [
       existingStyle,
-      `<style type="text/css">${requiredCss}</style>`
+      `<style type="text/css" id="__universalLoaderStyles">${requiredCss}</style>`
     ].join("\n");
 
     runCompilerTest(expected, done);
