@@ -14,7 +14,7 @@ Adds CSS to the DOM by injecting a `<style>` tag
 ## Install
 
 ```
-npm install simple-universal-style-loader --save-dev
+npm install newer-universal-style-loader --save-dev
 ```
 
 ## Usage
@@ -23,7 +23,7 @@ npm install simple-universal-style-loader --save-dev
 
 ### Webpack Configuration
 
-`simple-universal-style-loader` is a drop-in replacement for the usual `style-loader`.
+`newer-universal-style-loader` is a drop-in replacement for the usual `style-loader`.
 
 It's recommended to combine it with the [`css-loader`](https://github.com/webpack/css-loader).
 
@@ -34,7 +34,7 @@ Example for Webpack 5 with CSS module support:
     rules: [ {
       test: /\.css$/,
       use: [ {
-        loader: "simple-universal-style-loader",
+        loader: "newer-universal-style-loader",
         options: { singleton: true }
       }, {
         loader: "css-loader",
@@ -65,7 +65,7 @@ Use `getStyles()` to get captured styles in the form of a `<style>` element read
 Use this piece of code somewhere in your server-side bundle:
 
 ```js
-import universal from 'simple-universal-style-loader/universal';
+import universal from 'newer-universal-style-loader/universal';
 
 const html = universal.getStyles();
 ```
@@ -125,8 +125,8 @@ Also contains code authored by:
 
 MIT
 
-[npm]: https://img.shields.io/npm/v/simple-universal-style-loader.svg
-[npm-url]: https://npmjs.com/package/simple-universal-style-loader
+[npm]: https://img.shields.io/npm/v/newer-universal-style-loader.svg
+[npm-url]: https://npmjs.com/package/newer-universal-style-loader
 
-[node]: https://img.shields.io/node/v/simple-universal-style-loader.svg
+[node]: https://img.shields.io/node/v/newer-universal-style-loader.svg
 [node-url]: https://nodejs.org
