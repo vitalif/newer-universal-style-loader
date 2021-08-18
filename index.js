@@ -15,6 +15,7 @@ module.exports.pitch = function(remainingRequest) {
 		"// load the styles",
 		"var content = require(" + loaderUtils.stringifyRequest(this, "!!" + remainingRequest) + ");",
 		"if(typeof content === 'string') content = [[module.id, content, '']];",
+		"if(content.default) module.exports = content.default.locals;",
 		"if(content.locals) module.exports = content.locals;",
 		"if (typeof window === 'undefined') {",
 		"   require(" + loaderUtils.stringifyRequest(this, "!" + path.join(__dirname, "universal.js")) + ").addStyles(content, " + JSON.stringify(query) + ");",

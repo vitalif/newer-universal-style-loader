@@ -1,6 +1,6 @@
 {
   "name": "newer-universal-style-loader",
-  "version": "0.16.1",
+  "version": "0.16.2",
   "author": "Vitaliy Filippov",
   "description": "style loader for webpack with SSR support",
   "devDependencies": {
